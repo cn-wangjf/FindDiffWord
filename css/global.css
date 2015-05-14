@@ -1,0 +1,89 @@
+body {
+	color: #FFFFFF;
+	background-color: #88CD55;
+	font-family: 'Hiragino Sans GB', Tahoma, Simsun, 'Microsoft Yahei';
+	margin: 0px;
+	vertical-align: middle;
+}
+
+.btn {
+	border: none;
+	color: inherit;
+	cursor: pointer;
+	display: inline-block;
+	margin: 10px 30px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: bold;
+	outline: 0;
+	position: relative;
+	background: #0099FF;
+	border-radius: 7px;
+	box-shadow: 0 5px #0066FF;
+	font-size: 20px;
+	height: 50px;
+	width: 220px;
+	line-height: 50px;
+	-webkit-tap-highlight-color: transparent;
+}
+
+h1 {
+	text-shadow: 1px 1px 1px #003300;
+}
+
+#g_word_div {
+	display: block;
+	position:absolute;
+	margin-top: 50px;
+}
+
+.word_span {
+	float: left;
+	background-color: #000;
+	display: block;
+	border-radius:10px;
+	cursor:pointer;
+	border:5px solid #ddd;
+	position:relative;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	text-align: center;
+	vertical-align:text-top;
+	line-height: 200%;
+}
+
+.word_span2 {
+	width: 50%;
+	height: 50%;
+
+	font-size: 18vmin;
+}
+
+.word_span3 {
+	width: 33.333333%;
+	height: 33.333333%;
+	background-color: #f22;
+	font-size: 15vmin;
+}
+
+.word_span4 {
+	width: 25%;
+	height: 25%;
+	background-color: #33f;
+	font-size: 11vmin;
+}
+
+.word_span5 {
+	width: 20%;
+	height: 20%;
+	background-color: #188;
+	font-size: 7vmin ;
+}
+
+.word_span6 {
+	width: 16.666667%;
+	height: 16.666667%;
+	background-color: #550;
+	font-size: 6vmin ;
+}
