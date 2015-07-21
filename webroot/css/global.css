@@ -37,6 +37,12 @@ h1 {
 	margin-top: 50px;
 }
 
+#g_header_div {
+	padding-top: 10px;
+	font-size: 24px;
+	text-align: center;
+}
+
 .word_span {
 	float: left;
 	background-color: #000;
@@ -77,27 +83,27 @@ h1 {
 .word_span5 {
 	width: 20%;
 	height: 20%;
-	background-color: #188;
+	background-color: #b40;
 	font-size: 7vmin ;
 }
 
 .word_span6 {
 	width: 16.666667%;
 	height: 16.666667%;
-	background-color: #550;
+	background-color: #722;
 	font-size: 6vmin ;
 }
 
 .word_span7 {
 	width: 14.285714%;
 	height: 14.285714%;
-	background-color: #550;
+	background-color: #818;
 	font-size: 5vmin ;
 }
 
 .word_span8 {
 	width: 12.5%;
 	height: 12.5%;
-	background-color: #550;
+	background-color: #188;
 	font-size: 5vmin ;
 }

@@ -1,94 +1,18 @@
 !function() {
-	var currLevel = 1;
+	var currLevel;
 	var maxSpanNum = 8;
+	var totalTime = 0;
+	var remainTime = 0;
+	var levelTotalTime = 0;
+	var timeInterval;
 	var checkMobile = function () {
    
 		return navigator.userAgent.match(/iphone|android|phone|mobile|wap|netfront|x11|java|opera mobi|opera mini|ucweb|windows ce|symbian|symbianos|series|webos|sony|blackberry|dopod|nokia|samsung|palmsource|xda|pieplus|meizu|midp|cldc|motorola|foma|docomo|up.browser|up.link|blazer|helio|hosin|huawei|novarra|coolpad|webos|techfaith|palmsource|alcatel|amoi|ktouch|nexian|ericsson|philips|sagem|wellcom|bunjalloo|maui|smartphone|iemobile|spice|bird|zte-|longcos|pantech|gionee|portalmmm|jig browser|hiptop|benq|haier|^lct|320x320|240x320|176x220/i)!= null;
 	     
   	};
   	var clickEvent = checkMobile() ? "touchstart" : "click";
-  	var LevelData = {
-  		"1" : {
-  			num : 2,
-			aimWord : "哈",
-			otherWord : "啊"
-  		},
-  		"2" : {
-  			num : 3,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"3" : {
-  			num : 4,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"4" : {
-  			num : 4,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"5" : {
-  			num : 5,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"6" : {
-  			num : 5,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"7" : {
-  			num : 6,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"8" : {
-  			num : 6,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"9" : {
-  			num : 6,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"10" : {
-  			num : 7,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"11" : {
-  			num : 7,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"12" : {
-  			num : 7,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"13" : {
-  			num : 8,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"14" : {
-  			num : 8,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"15" : {
-  			num : 8,
-			aimWord : "太",
-			otherWord : "大"
-  		},
-  		"16" : {
-  			num : 8,
-			aimWord : "太",
-			otherWord : "大"
-  		}
-  	};
+  	//var LevelData = {"1":{num:2,time:10,aimWord:"哈",otherWord:"啊"},"2":{num:3,time:10,aimWord:"太",otherWord:"大"},"3":{num:4,time:10,aimWord:"下",otherWord:"卞"},"4":{num:4,time:10,aimWord:"日",otherWord:"目"},"5":{num:5,time:10,aimWord:"鸟",otherWord:"乌"},"6":{num:5,time:10,aimWord:"戌",otherWord:"戍"},"7":{num:6,time:10,aimWord:"西",otherWord:"酉"},"8":{num:6,time:10,aimWord:"律",otherWord:"津"},"9":{num:6,time:10,aimWord:"壿",otherWord:""},"10":{num:7,time:10,aimWord:"己",otherWord:"已"}};
+  	var LevelData = {"1":{num:2,time:10,aimWord:"哈",otherWord:"啊"},"2":{num:3,time:10,aimWord:"太",otherWord:"大"}};
 	var _g = {
 
 		renderWordDiv : function() {
@@ -128,12 +52,28 @@
 
 		renderLevel : function() {
 			var data = LevelData[currLevel];
+			totalTime += levelTotalTime - remainTime;
 			if(data) {
 				this.renderWords(data.num, data.aimWord, data.otherWord);
+				levelTotalTime = remainTime = data.time;
+				$("#g_level_span").html(currLevel);
+				$("#g_time_span").html(remainTime);
 			} else {
-				//通关
-				alert("通关");
+				clearInterval(timeInterval);
+				$("#g_main").hide();
+				$.post("RankAction", {time:totalTime}, function(data) {
+					$("#g_restart_title").html("恭喜您，成功通关。<br>用时：" + totalTime + "秒,<br> 击败全国" + data + "% 的玩家！");
+					$("#g_restart_div").fadeIn(1000);
+				},"json");
 			}
+		},
+
+		renderGameOver : function() {
+			clearInterval(timeInterval);
+			$("#g_main").hide();
+			$("#g_restart_title").html("很遗憾，时间到了。<br>当前关卡：" + currLevel);
+			$("#g_restart_div").fadeIn(1000);
+			
 		},
 
 		bindClick : function(aimIdx) {
@@ -144,19 +84,36 @@
 			});
 
 			$(".g_other_word").bind(clickEvent, function() {
-				alert("no");
+				
 			});
+		},
+
+		pastTime : function(time) {
+			if(!time) {
+				time = 1;
+			}
+			remainTime -= time;
+			if(remainTime <= 0) {
+				 _g.renderGameOver();
+				return;
+			}
+			
+			$("#g_time_span").html(remainTime);
 		},
 
 		init : function() {
 			var t = this;
-			$("#g_start").bind(clickEvent, function() {
+			$("#g_start, #g_restart").bind(clickEvent, function() {
+				$("#g_restart_div").hide();
+				currLevel = 1
+				totalTime = 0
 				$("#g_menu").hide();
 				$("#g_main").fadeIn(1000);
 				t.renderWordDiv();
 				t.renderLevel(currLevel);
-				
+				timeInterval = setInterval(t.pastTime, 1000);
 			});
+		
 		}
 	}
 
